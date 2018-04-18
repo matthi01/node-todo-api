@@ -14,15 +14,7 @@ script using nodemon 'npm run test-watch'.</p>
 <p>This API is available on heroku: <a href="https://sheltered-hollows-47895.herokuapp.com/" target="_blank">https://sheltered-hollows-47895.herokuapp.com/</a></p>
 
 <p><b>Use:</b></p>
-
-GET - all todos:
-<li>/todos</li>
-
-GET - single todo:
-<li>/todos/ID-TO-RETRIEVE</li>
-
-POST - create new todo:
-<li>/todos</li>
-
-DELETE - single todo:
-<li>/todos/ID-TO-DELETE</li>
+<li>GET - (all todos) URL: /todos</li>
+<li>GET - (single todo) URL: /todos/ID-TO-RETRIEVE</li>
+<li>POST - URL: /todos</li>
+<li>DELETE - URL: /todos/ID-TO-DELETE</li>
