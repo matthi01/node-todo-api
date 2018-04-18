@@ -8,6 +8,7 @@ const {User} = require('./models/user');
 
 
 const app = express();
+const port = process.env.PORT || 3000;
 
 // set up middleware
 // body-parser will take the json and convert it into and obj
@@ -54,8 +55,8 @@ app.get('/todos/:id', (req, res) => {
   }).catch((err) => res.status(400).send());
 });
 
-app.listen(3000, () => {
-  console.log('Server started on port 3000');
+app.listen(port, () => {
+  console.log(`Server started on port ${port}`);
 });
 
 // need to export to be able to use in testing suite
