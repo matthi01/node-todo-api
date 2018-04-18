@@ -43,7 +43,7 @@ app.get('/todos', (req, res) => {
 //GET single todo - ':id' available in req.params - key being url param
 app.get('/todos/:id', (req, res) => {
   if (!ObjectID.isValid(req.params.id)) {
-    return res.status(404).send();
+    return res.status(400).send();
   }
 
   Todo.findById(req.params.id).then((todo) => {
