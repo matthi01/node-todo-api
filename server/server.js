@@ -27,7 +27,16 @@ app.post('/todos', (req, res) => {
     // if it couldn't save it was probably due to bad data - 400 - Bad Request
     res.status(400).send(err);
   });
+});
 
+// GET all todos in collection
+app.get('/todos', (req, res) => {
+  Todo.find().then((todos) => {
+    // instead of just sending the array, create an object to add a few more properties
+    res.send({todos: todos});
+  }, (err) => {
+    res.status(400).send(err);
+  })
 });
 
 app.listen(3000, () => {
