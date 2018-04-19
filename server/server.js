@@ -18,6 +18,9 @@ const port = process.env.PORT;
 // the return from .json() is a func, which is the middleware express needs
 app.use(bodyParser.json());
 
+
+// *********** TODO ROUTES ***********
+
 // set up routes for basic CRUD operations / each express route takes two args - URL and callback (with request and response objects)
 // take the data and create a new mongoose model, then save that model to the db
 app.post('/todos', (req, res) => {
@@ -94,8 +97,25 @@ app.patch('/todos/:id', (req, res) => {
   }).catch((err) => {
     res.status(400).send();
   });
-
 });
+
+// ***********************************
+
+
+// *********** USER ROUTES ***********
+
+app.post('/users', (req, res) => {
+  const body = _.pick(req.body, ['email', 'password']);
+  const newUser = new User(body);
+
+  newUser.save().then((user) => {
+    res.send(user);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+// ***********************************
 
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);

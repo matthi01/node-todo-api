@@ -9,6 +9,7 @@ with some of the commands. Keeping that there for reference.</p>
 script using nodemon 'npm run test-watch'.</p>
 
 <br />
+<hr>
 
 <p>This API is available on heroku: <a href="https://sheltered-hollows-47895.herokuapp.com/" target="_blank">https://sheltered-hollows-47895.herokuapp.com/</a></p>
 
@@ -20,6 +21,7 @@ script using nodemon 'npm run test-watch'.</p>
 <li>PATCH - URL: /todos/ID-TO-PATCH</li>
 
 <br />
+<hr>
 
 <p><b>Data:</b></p>
 
@@ -31,3 +33,10 @@ script using nodemon 'npm run test-watch'.</p>
 <br />
 
 <b>User:</b>
+
+<br />
+<hr>
+
+<p><b>Authentication and Validation / Tokens</b></p>
+<p>User authentication is handled with email and password. The passwords are hashed before being stored in the database. For
+reference I left several hashing example files in the playground folder as I find this is a very interesting topic.</p>
