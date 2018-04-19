@@ -7,10 +7,14 @@ const {Todo} = require('./../models/todo');
 
 const seedTodoData = [{
     _id: new ObjectID(),
-    text: 'First test todo'
+    text: 'First test todo',
+    completed: false,
+    completedAt: null
 }, {
     _id: new ObjectID(),
-    text: 'Second test todo' 
+    text: 'Second test todo',
+    completed: true,
+    completedAt: 999
 }];
 
 // lifecycle method - runs before every test case - use to set up the database / add some seed data
@@ -145,4 +149,40 @@ describe('DELETE /todos/:id', () => {
             .end(done);
     });
 
+});
+
+describe('PATCH /todos/:id', () => {
+
+    it('should update todo doc', (done) => {
+        let hexId = seedTodoData[0]._id.toHexString();
+        let updateText = 'Test Update';
+
+        request(app)
+            .patch(`/todos/${hexId}`)
+            .send({text: updateText, completed: true})
+            .expect(200)
+            .expect((res) => {
+                expect(res.body.todo.text).toBe(updateText);
+                expect(res.body.todo.completed).toBe(true);
+                //expect(res.body.todo.completedAt).toExist();
+            })
+            .end(done);
+        });
+
+
+    it('should clear completedAt when todo is not completed', (done) => {
+        let hexId = seedTodoData[1]._id.toHexString();
+        let updateText = 'Test Update 2';
+
+        request(app)
+            .patch(`/todos/${hexId}`)
+            .send({text: updateText, completed: false})
+            .expect(200)
+            .expect((res) => {
+                expect(res.body.todo.text).toBe(updateText);
+                expect(res.body.todo.completed).toBe(false);
+                //expect(res.body.todo.completedAt).toNotExist();
+            })
+            .end(done);
+        });
 });
