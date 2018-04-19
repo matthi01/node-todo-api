@@ -9,7 +9,6 @@ with some of the commands. Keeping that there for reference.</p>
 script using nodemon 'npm run test-watch'.</p>
 
 <br />
-<br />
 
 <p>This API is available on heroku: <a href="https://sheltered-hollows-47895.herokuapp.com/" target="_blank">https://sheltered-hollows-47895.herokuapp.com/</a></p>
 
@@ -18,3 +17,17 @@ script using nodemon 'npm run test-watch'.</p>
 <li>GET - (single todo) URL: /todos/ID-TO-RETRIEVE</li>
 <li>POST - URL: /todos</li>
 <li>DELETE - URL: /todos/ID-TO-DELETE</li>
+<li>PATCH - URL: /todos/ID-TO-PATCH</li>
+
+<br />
+
+<p><b>Data:</b></p>
+
+<b>Todo:</b>
+<li>text - (string) - text describing the todo task</li>
+<li>completed - (boolean) - if task is completed or not</li>
+<li>completedAt - (number) - timestamp of when the task was completed</li>
+
+<br />
+
+<b>User:</b>
