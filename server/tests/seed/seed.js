@@ -28,9 +28,7 @@ const seedUsersData = [{
 // TODOS
 const seedTodoData = [{
     _id: new ObjectID(),
-    text: 'First test todo',
-    completed: false,
-    completedAt: null
+    text: 'First test todo'
 }, {
     _id: new ObjectID(),
     text: 'Second test todo',
