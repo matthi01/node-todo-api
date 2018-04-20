@@ -26,6 +26,7 @@ script using nodemon 'npm run test-watch'.</p>
 <p><b>Data:</b></p>
 
 <b>Todo:</b>
+
 <li>text - (string) - text describing the todo task</li>
 <li>completed - (boolean) - if task is completed or not</li>
 <li>completedAt - (number) - timestamp of when the task was completed</li>

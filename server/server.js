@@ -106,11 +106,16 @@ app.patch('/todos/:id', (req, res) => {
 
 app.post('/users', (req, res) => {
   const body = _.pick(req.body, ['email', 'password']);
-  const newUser = new User(body);
+  const user = new User(body);
 
-  newUser.save().then((user) => {
-    res.send(user);
-  }).catch((err) => {
+  user.save().then((user) => {
+    return user.generateAuthToken();
+    //res.send(user);
+  }).then((token) => {
+    // header with 'x-' is a custom header
+    res.header('x-auth', token).send(user);
+  })
+  .catch((err) => {
     res.status(400).send(err);
   });
 });
