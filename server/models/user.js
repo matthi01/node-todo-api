@@ -46,6 +46,27 @@ UserSchema.methods.generateAuthToken = function() {
   });
 };
 
+// statics instead of methods.. this just turns the method into a static - or a model method
+// because its a model method and not an instance method, 'this' will refer to the model User not instance user
+UserSchema.statics.findByToken = function(token) {
+  let User = this;
+  let decoded;
+  
+  try {
+    decoded = jwt.verify(token, 'somethingsecret')
+  } catch (err) {
+    return Promise.reject();
+  }
+
+  // note: to access nested properties, wrap the value in quotes (if there is a . in the full property name)
+  return User.findOne({
+    _id: decoded._id,
+    'tokens.token': token,
+    'tokens.access': 'auth'
+  });
+
+};
+
 // going to override this method - don't want to return all the information in this model (like the password)
 UserSchema.methods.toJSON = function() {
   let user = this;
