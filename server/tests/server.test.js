@@ -4,25 +4,11 @@ const {ObjectID} = require('mongodb');
 
 const {app} = require('./../server');
 const {Todo} = require('./../models/todo');
-
-const seedTodoData = [{
-    _id: new ObjectID(),
-    text: 'First test todo',
-    completed: false,
-    completedAt: null
-}, {
-    _id: new ObjectID(),
-    text: 'Second test todo',
-    completed: true,
-    completedAt: 999
-}];
+const {seedTodoData, seedUsersData, populateUsers, populateTodos} = require('./seed/seed');
 
 // lifecycle method - runs before every test case - use to set up the database / add some seed data
-beforeEach((done) => { 
-    Todo.remove({}).then(() => {
-        Todo.insertMany(seedTodoData);
-    }).then(() => done());
-});
+// beforeEach(populateUsers); NEED TO FIX
+beforeEach(populateTodos);
 
 describe('POST /todos', () => {
 
@@ -61,7 +47,7 @@ describe('POST /todos', () => {
                     return done(err);
                 }
                 // make sure nothing was put into the DB
-                Todo.find().then((todos) => {
+                Todo.find({}).then((todos) => {
                     expect(todos.length).toBe(seedTodoData.length);
                     done();
                 }).catch((err) => done(err));

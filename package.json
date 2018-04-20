@@ -22,7 +22,6 @@
     "lodash": "^4.17.5",
     "mongodb": "^3.0.7",
     "mongoose": "^5.0.15",
-    "npm": "^5.8.0",
     "validator": "^9.4.1"
   },
   "devDependencies": {
