@@ -8,7 +8,7 @@ const {User} = require('./../models/user');
 const {seedTodoData, seedUsersData, populateUsers, populateTodos} = require('./seed/seed');
 
 // lifecycle method - runs before every test case - use to set up the database / add some seed data
-//beforeEach(populateUsers); //NEED TO FIX!!!
+beforeEach(populateUsers); //NEED TO FIX!!!
 beforeEach(populateTodos);
 
 describe('POST /todos', () => {
@@ -116,7 +116,7 @@ describe('DELETE /todos/:id', () => {
                     return done(err);
                 }
                 Todo.findById(hexId).then((todo) => {
-                    expect(todo).toBeNull();
+                    expect(todo).toNotExist();
                     done();
                 }).catch((err) => done(err));
             });
@@ -223,7 +223,7 @@ describe('POST /users/me', () => {
 
                 User.findOne().then((user) => {
                     expect(user).toBeTruthy();
-                    expect(user.password).not.toBe(password);
+                    expect(user.password).toNotBe(password);
                     done();
                 }).catch((err) => done(err));
             });
@@ -241,7 +241,7 @@ describe('POST /users/me', () => {
     });
 
     it('should not create a user if email in use', (done) => {
-        let email = 'three@test.com';
+        let email = 'one@test.com';
         let password = '@Password1';
 
         request(app)
@@ -260,11 +260,11 @@ describe('POST /users/login', () => {
             .send({email: seedUsersData[1].email, password: seedUsersData[1].password})
             .expect(200)
             .expect((res) => {
-                expect(res.headers['x-auth'].toExist());
+                expect(res.headers['x-auth']).toExist();
             })
             .end((err, res) => {
                 if (err) {
-                    done(err);
+                    return done(err);
                 }
 
                 User.findById(seedUsersData[1]._id).then((user) => {
@@ -283,15 +283,15 @@ describe('POST /users/login', () => {
             .send({email: 'wrongemail', password: 'wrongpassword'})
             .expect(400)
             .expect((res) => {
-                expect(res.headers['x-auth'].toNotExist());
+                expect(res.headers['x-auth']).toNotExist();
             })
             .end((err, res) => {
                 if (err) {
-                    done(err);
+                    return done(err);
                 }
 
                 User.findById(seedUsersData[1]._id).then((user) => {
-                    expect(user.tokens[0].length).toBe(0);
+                    expect(user.tokens.length).toBe(0);
                     done();
                 }).catch((err) => done(err));
             });
@@ -308,7 +308,7 @@ describe('DELETE /users/me/token', () => {
             .expect(200)
             .end((err, res) => {
                 if(err) {
-                    done(err);
+                    return done(err);
                 }
 
                 User.findById(seedUsersData[0]._id).then((user) => {
