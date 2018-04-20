@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const _ = require('lodash');
+const bcrypt = require('bcryptjs');
 
 // need a schema to be able to tack methods onto the model
 let UserSchema = new mongoose.Schema({
@@ -75,6 +76,23 @@ UserSchema.methods.toJSON = function() {
   return _.pick(userObject, ['_id', 'email']);
 };
 
+// using a regular function to get access to 'this'
+// using this middleware to make some changes to the schema before saving it - hasing the passwords
+UserSchema.pre('save', function(next) {
+  let user = this;
+  
+  if (user.isModified('password')) {
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(user.password, salt, (err, hash) => {
+        user.password = hash;
+        next();
+      });
+    });
+
+  } else {
+    next();
+  }
+});
 
 const User = mongoose.model('User', UserSchema);
 
