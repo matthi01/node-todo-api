@@ -8,7 +8,7 @@ const {User} = require('./../models/user');
 const {seedTodoData, seedUsersData, populateUsers, populateTodos} = require('./seed/seed');
 
 // lifecycle method - runs before every test case - use to set up the database / add some seed data
-//beforeEach(populateUsers); //NEED TO FIX
+//beforeEach(populateUsers); //NEED TO FIX!!!
 beforeEach(populateTodos);
 
 describe('POST /todos', () => {
@@ -225,7 +225,7 @@ describe('POST /users/me', () => {
                     expect(user).toBeTruthy();
                     expect(user.password).not.toBe(password);
                     done();
-                });
+                }).catch((err) => done(err));
             });
     });
 
@@ -249,5 +249,51 @@ describe('POST /users/me', () => {
             .send({email, password})
             .expect(400)
             .end(done);
+    });
+});
+
+describe('POST /users/login', () => {
+
+    it('should login user and return auth token', (done) => {
+        request(app)
+            .post('/users/login')
+            .send({email: seedUsersData[1].email, password: seedUsersData[1].password})
+            .expect(200)
+            .expect((res) => {
+                expect(res.headers['x-auth'].toExist());
+            })
+            .end((err, res) => {
+                if (err) {
+                    done(err);
+                }
+
+                User.findById(seedUsersData[1]._id).then((user) => {
+                    expect(user.tokens[0]).toInclude({
+                        access: 'auth',
+                        token: res.headers['x-auth']
+                    });
+                    done();
+                }).catch((err) => done(err));
+            });
+    });
+
+    it('should reject invalid login', (done) => {
+        request(app)
+            .post('/users/login')
+            .send({email: 'wrongemail', password: 'wrongpassword'})
+            .expect(400)
+            .expect((res) => {
+                expect(res.headers['x-auth'].toNotExist());
+            })
+            .end((err, res) => {
+                if (err) {
+                    done(err);
+                }
+
+                User.findById(seedUsersData[1]._id).then((user) => {
+                    expect(user.tokens[0].length).toBe(0);
+                    done();
+                }).catch((err) => done(err));
+            });
     });
 });

@@ -43,7 +43,7 @@ const populateUsers = (done) => {
         let userTwo = new User(seedUsersData[1]).save();
 
         return Promise.all([userOne, userTwo]);
-    }).then(() => done());
+    }).then(() => done()).catch((err) => done(err));
 };
 
 const populateTodos = (done) => {
