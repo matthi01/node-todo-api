@@ -11,6 +11,7 @@ const {User} = require('./models/user');
 const {authenticate} = require('./middleware/authenticate');
 
 
+
 const app = express();
 const port = process.env.PORT;
 
@@ -105,6 +106,7 @@ app.patch('/todos/:id', (req, res) => {
 
 // *********** USER ROUTES ***********
 
+// POST /users
 app.post('/users', (req, res) => {
   const body = _.pick(req.body, ['email', 'password']);
   const user = new User(body);
@@ -127,6 +129,22 @@ app.post('/users', (req, res) => {
 app.get('/users/me', authenticate, (req, res) => {
   res.send(req.user);
 });
+
+
+// POST /users/login
+app.post('/users/login', (req, res) => {
+  const body = _.pick(req.body, ['email','password']);
+
+  User.findByCredentials(body.email, body.password).then((user) => {
+    return user.generateAuthToken().then((token) => {
+      res.header('x-auth', token).send(user);
+    });
+  }).catch((err) => {
+    res.status(400).send();
+  });
+});
+
+
 
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
