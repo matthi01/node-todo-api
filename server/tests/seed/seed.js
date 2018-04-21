@@ -21,19 +21,25 @@ const seedUsersData = [{
 }, {
     _id: userTwoId,
     email: 'two@test.com',
-    password: 'userTwoPassword'
+    password: 'userTwoPassword',
+    tokens: [{
+        access: 'auth', 
+        token: jwt.sign({_id: userTwoId, access: 'auth'}, 'somethingsecret').toString()
+    }]
 }];
 
 
 // TODOS
 const seedTodoData = [{
     _id: new ObjectID(),
-    text: 'First test todo'
+    text: 'First test todo',
+    _creator: userOneId
 }, {
     _id: new ObjectID(),
     text: 'Second test todo',
     completed: true,
-    completedAt: 999
+    completedAt: 999,
+    _creator: userTwoId
 }];
 
 // POPULATING DB
