@@ -37,7 +37,7 @@ let UserSchema = new mongoose.Schema({
 UserSchema.methods.generateAuthToken = function() {
   let user = this;
   let access = 'auth';
-  let token = jwt.sign({_id: user._id.toHexString(), access: access}, 'somethingsecret').toString();
+  let token = jwt.sign({_id: user._id.toHexString(), access: access}, process.env.JWT_SECRET).toString();
 
   //user.tokens.push({token, access}); - not sure why this is causing a problem
   user.tokens = user.tokens.concat([{access, token}]);
@@ -66,7 +66,7 @@ UserSchema.statics.findByToken = function(token) {
   let decoded;
   
   try {
-    decoded = jwt.verify(token, 'somethingsecret')
+    decoded = jwt.verify(token, process.env.JWT_SECRET)
   } catch (err) {
     return Promise.reject();
   }

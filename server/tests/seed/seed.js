@@ -15,7 +15,7 @@ const seedUsersData = [{
     password: 'userOnePassword',
     tokens: [{
         access: 'auth', 
-        token: jwt.sign({_id: userOneId, access: 'auth'}, 'somethingsecret').toString()
+        token: jwt.sign({_id: userOneId, access: 'auth'}, process.env.JWT_SECRET).toString()
     }]
 
 }, {
@@ -24,7 +24,7 @@ const seedUsersData = [{
     password: 'userTwoPassword',
     tokens: [{
         access: 'auth', 
-        token: jwt.sign({_id: userTwoId, access: 'auth'}, 'somethingsecret').toString()
+        token: jwt.sign({_id: userTwoId, access: 'auth'}, process.env.JWT_SECRET).toString()
     }]
 }];
 
