@@ -8,17 +8,26 @@ with some of the commands. Keeping that there for reference.</p>
 <p>This repository also contains Mocha unit test scripts for all functionality of the API. You can run these tests with a custom
 script using nodemon 'npm run test-watch'.</p>
 
+<p>This API allows you to create user with a provided email and password. Signing up will automatically provide you with a token, otherwise a token will be provided after successful log in. Once a token has been received you can make requsts to add 'todo' tasks, update, retrieve, and delete them.<br />
+All information is held in a mongoDB database hosted through Heroku. User information (password) is encrypted before being stored in the database.</p>
+
 <br />
 <hr>
 
 <p>This API is available on heroku: <a href="https://sheltered-hollows-47895.herokuapp.com/" target="_blank">https://sheltered-hollows-47895.herokuapp.com/</a></p>
 
-<p><b>Use:</b></p>
+<p><b>Requests for Todos:</b></p>
 <li>GET - (all todos) URL: /todos</li>
 <li>GET - (single todo) URL: /todos/ID-TO-RETRIEVE</li>
-<li>POST - URL: /todos</li>
+<li>POST - (create todo) URL: /todos</li>
 <li>DELETE - URL: /todos/ID-TO-DELETE</li>
 <li>PATCH - URL: /todos/ID-TO-PATCH</li>
+
+<p><b>Requests for Users:</b></p>
+<li>POST - (create user) URL: /users</li>
+<li>POST - (login) URL: /users/login</li>
+<li>GET - (retrieve user email from x-auth token) URL: /users/me</li>
+<li>DELETE - (logout) URL: /users/me/token</li>
 
 <br />
 <hr>
@@ -34,6 +43,8 @@ script using nodemon 'npm run test-watch'.</p>
 <br />
 
 <b>User:</b>
+<li>email - (string) - email / used for authentication - unique</li>
+<li>password - (string) - password - hashed before saving to DB</li>
 
 <br />
 <hr>
