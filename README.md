@@ -51,4 +51,4 @@ All information is held in a mongoDB database hosted through Heroku. User inform
 
 <p><b>Authentication and Validation / Tokens</b></p>
 <p>User authentication is handled with email and password. The passwords are hashed before being stored in the database. For
-reference I left several hashing example files in the playground folder as I find this is a very interesting topic.</p>
+reference I left several hashing example files in the playground folder as I find this is a very interesting topic.</p>    
